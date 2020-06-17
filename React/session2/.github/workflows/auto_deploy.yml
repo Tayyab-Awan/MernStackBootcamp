@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Bootcamp Session 2
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Installing Node.js modules
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: 12
+
+    - name: Installing Yarn
+      uses: Borales/actions-yarn@v2.1.0
+      with:
+        # Yarn command
+        cmd: install
+
+    - name: Creating Build
+      run: npm run build
+
+    - name: Installing Surge
+      run: npm install -g surge
+      
+    - name: Strating deployment
+      run: surge ./build session2_tayyab.surge.sh --token ${{secrets.SURGE_TOKEN}}
